@@ -32,6 +32,7 @@ public class LoginTest extends BaseTest {
         /*
          * testData 정의
          * 필요한 testData는 보안을 위해 DB에서 불러온다.
+         * 로그인 타입은 COMMON, SNS
          */
         loginRequestDto = LoginRequestDto
                 .builder()
