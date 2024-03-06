@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="1" name="LoginTest">
+        <classes>
+            <class name="test.java.uitest.login.LoginTest"/>
+        </classes>
+    </test>
+
+    <test verbose="1" name="LoginTest2">
+        <classes>
+            <class name="test.java.uitest.login.LoginTest2"/>
+        </classes>
+    </test>
+</suite>
