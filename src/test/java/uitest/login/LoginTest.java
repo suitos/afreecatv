@@ -1,6 +1,5 @@
 package test.java.uitest.login;
 
-import mmarquee.demo.Main;
 import org.testng.annotations.Test;
 import test.java.dto.LoginRequestDto;
 import test.java.dto.LoginResponseDto;
@@ -9,8 +8,8 @@ import test.java.pageFactory.pages.LoginPage;
 import test.java.pageFactory.pages.MainPage;
 import test.java.uitest.BaseTest;
 
-import static test.java.dto.LoginRequestDto.LoginType.COMMON;
 import static org.assertj.core.api.Assertions.assertThat;
+import static test.java.dto.LoginRequestDto.LoginType.COMMON;
 
 public class LoginTest extends BaseTest {
 
