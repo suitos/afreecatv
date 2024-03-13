@@ -13,7 +13,7 @@ public class LoginTest2 extends BaseTest {
     @Test(priority = 0, description = "아프리카tv 페이지 진입")
     public void openPage() {
         BasePage basePage = new BasePage();
-        basePage.open("https://www.afreecatv.com");
+        basePage.navigate("https://www.afreecatv.com");
 
     }
 
@@ -27,4 +27,5 @@ public class LoginTest2 extends BaseTest {
 
         assertThat(mainPage.getNickName()).isEqualTo("서준석");
     }
+
 }

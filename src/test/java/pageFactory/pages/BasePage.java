@@ -1,48 +1,34 @@
 package test.java.pageFactory.pages;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.InvalidArgumentException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import test.java.driver.manager.DriverManager;
-
-import java.time.Duration;
+import test.java.actionFactory.UserActions;
 
 import static org.assertj.core.api.Fail.fail;
 
-public class BasePage {
+public class BasePage extends UserActions {
 
-    public WebDriver driver;
+    private WebDriver driver;
+    private UserActions userActions;
 
     public BasePage() {
         try {
             driver = DriverManager.getDriver();
             PageFactory.initElements(driver, this);
+            userActions = new UserActions();
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to initialize page object: " + this.getClass().getSimpleName(), e);
         }
     }
 
-    public void waitForClickabilityOf(WebElement el) {
-
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            wait.ignoring(StaleElementReferenceException.class)
-                    .until(ExpectedConditions.elementToBeClickable(el));
-
-        } catch (Exception e) {
-            if (!el.isDisplayed()) {
-                fail(el + " is not clickable");
-            }
-        }
-
-    }
-
-    public BasePage open(String url) {
+    public void navigate(String url) {
         try {
             driver.get(url);
-
         } catch (InvalidArgumentException e) {
             fail(url + " is open fail!!");
             driver.quit();
@@ -52,33 +38,18 @@ public class BasePage {
             driver.quit();
 
         }
-        return this;
     }
 
-    public BasePage sleep(long time) throws Exception {
-        Thread.sleep(time);
-        return this;
+    public void click(WebElement el, String elname) throws Exception {
+        userActions.click(el, elname);
     }
 
-    public BasePage click(WebElement el, String elname) throws Exception {
-        waitForClickabilityOf(el);
-
-        el.click();
-
-        return this;
-    }
-
-    public BasePage sendKeys(WebElement el, String text, String elname) throws Exception {
-        waitForClickabilityOf(el);
-        el.clear();
-        sleep(200);
-        el.sendKeys(text);
-
-        return this;
+    public void sendKeys(WebElement el, String text, String elname) throws Exception {
+        userActions.sendKeys(el, text, elname);
     }
 
     public String getText(WebElement el) throws Exception {
-        waitForClickabilityOf(el);
-        return el.getText();
+        return userActions.getText(el);
     }
+
 }

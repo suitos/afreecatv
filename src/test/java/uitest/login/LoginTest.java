@@ -19,12 +19,12 @@ public class LoginTest extends BaseTest {
     @Test(priority = 0, description = "아프리카tv 페이지 진입")
     public void openPage() {
         BasePage basePage = new BasePage();
-        basePage.open("https://www.afreecatv.com");
+        basePage.navigate("https://www.afreecatv.com");
 
     }
 
     @Test(priority = 1, dependsOnMethods = "openPage", description = "로그인 테스트")
-    public void validLoginTest() throws Exception {
+    public void AUTO_LOGIN_001() throws Exception {
         MainPage mainPage = new MainPage();
         mainPage.clickLoginBtn();
 

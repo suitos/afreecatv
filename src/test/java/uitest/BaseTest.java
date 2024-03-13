@@ -4,9 +4,9 @@ import org.testng.annotations.*;
 import test.java.driver.manager.DriverManager;
 import test.java.driver.manager.DriverManagerFactory;
 import test.java.driver.type.DriverType;
-import test.java.pageFactory.pages.BasePage;
 
 public class BaseTest {
+
     private static String BROWSER;
 
     private String setBrowserValue(String browser) {
