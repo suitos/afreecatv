@@ -4,7 +4,7 @@ import org.testng.annotations.Test;
 import test.java.pageFactory.pages.BasePage;
 import test.java.pageFactory.pages.LoginPage;
 import test.java.pageFactory.pages.MainPage;
-import test.java.uitest.BaseTest;
+import test.java.uitest.pretest.BaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

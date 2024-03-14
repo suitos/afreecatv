@@ -6,7 +6,7 @@ import test.java.dto.LoginResponseDto;
 import test.java.pageFactory.pages.BasePage;
 import test.java.pageFactory.pages.LoginPage;
 import test.java.pageFactory.pages.MainPage;
-import test.java.uitest.BaseTest;
+import test.java.uitest.pretest.BaseTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static test.java.dto.LoginRequestDto.LoginType.COMMON;
@@ -18,10 +18,12 @@ public class LoginTest extends BaseTest {
 
     @Test(priority = 0, description = "아프리카tv 페이지 진입")
     public void openPage() {
+
         BasePage basePage = new BasePage();
-        basePage.navigate("https://www.afreecatv.com");
+        basePage.navigate(getUrl());
 
     }
+
 
     @Test(priority = 1, dependsOnMethods = "openPage", description = "로그인 테스트")
     public void AUTO_LOGIN_001() throws Exception {

@@ -1,4 +1,4 @@
-package test.java.driver.type;
+package main.java.com.afreecatv.driver.type;
 
 public enum DriverType {
 

@@ -1,4 +1,4 @@
-package test.java.driver.manager;
+package main.java.com.afreecatv.driver.manager;
 
 import org.openqa.selenium.WebDriver;
 
@@ -10,6 +10,11 @@ public class DriverManagerFactory {
 
             case "CHROME": {
                 driver = new ChromeManager().createDriver();
+                break;
+            }
+
+            case "FIREFOX": {
+                driver = new FirefoxManager().createDriver();
                 break;
             }
 

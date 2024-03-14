@@ -1,4 +1,4 @@
-package test.java.driver.manager;
+package main.java.com.afreecatv.driver.manager;
 
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.WebDriver;

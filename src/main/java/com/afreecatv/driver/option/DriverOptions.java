@@ -1,9 +1,11 @@
-package test.java.driver.option;
+package main.java.com.afreecatv.driver.option;
 
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class DriverOptions {
     private final ChromeOptions chromeOptions = new ChromeOptions();
+    private final FirefoxOptions firefoxOptions = new FirefoxOptions();
 
     private void headlessOptions() {
         chromeOptions.addArguments("--headless");
@@ -31,4 +33,10 @@ public class DriverOptions {
         return chromeOptions;
     }
 
+    public FirefoxOptions firefoxOptions() {
+
+        firefoxOptions.addArguments("high-dpi-support=1");
+
+        return firefoxOptions;
+    }
 }

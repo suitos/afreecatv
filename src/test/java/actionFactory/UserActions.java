@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import test.java.driver.manager.DriverManager;
+import main.java.com.afreecatv.driver.manager.DriverManager;
 
 import java.time.Duration;
 
@@ -27,7 +27,6 @@ public class UserActions {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.ignoring(StaleElementReferenceException.class)
                 .until(ExpectedConditions.elementToBeClickable(el));
-
     }
 
     public void sleep(long time) throws Exception {

@@ -1,10 +1,10 @@
-package test.java.driver.manager;
+package main.java.com.afreecatv.driver.manager;
 
 import io.appium.java_client.AppiumDriver;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import main.java.com.afreecatv.driver.option.DriverOptions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import test.java.driver.option.DriverOptions;
 
 public class ChromeManager implements DriverManager_OC {
 

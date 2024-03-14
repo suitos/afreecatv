@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import test.java.driver.manager.DriverManager;
+import main.java.com.afreecatv.driver.manager.DriverManager;
 import test.java.actionFactory.UserActions;
 
 import static org.assertj.core.api.Fail.fail;
