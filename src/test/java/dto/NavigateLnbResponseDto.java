@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class LoginResponseDto {
-    private String resultProfileName;
+public class NavigateLnbResponseDto {
+    private String resultBigTitle;
 }

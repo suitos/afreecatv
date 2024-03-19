@@ -28,5 +28,9 @@ public class MainPage extends BasePage {
         return LoginResponseDto.builder().resultProfileName(nickName).build();
     }
 
+    public void clickPreferBroadList() {
+
+    }
+
 
 }

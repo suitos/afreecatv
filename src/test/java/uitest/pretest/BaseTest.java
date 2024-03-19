@@ -1,53 +1,45 @@
 package test.java.uitest.pretest;
 
-import main.java.com.afreecatv.utils.PropertyReader;
-import org.testng.annotations.*;
+import lombok.Getter;
 import main.java.com.afreecatv.driver.manager.DriverManager;
 import main.java.com.afreecatv.driver.manager.DriverManagerFactory;
 import main.java.com.afreecatv.driver.type.DriverType;
+import main.java.com.afreecatv.utils.PropertyReader;
+import org.testng.annotations.*;
+import test.java.pageFactory.pages.BasePage;
 
 public class BaseTest {
 
-    private static String Browser;
-    private static String Url;
+    @Getter
+    private String Browser;
+    public static String TargetUrl;
 
     private void setBrowser(String browser) {
-        if (browser == null) {
-            browser = DriverType.CHROME.name();
-        }
-
+        if (browser == null) browser = DriverType.CHROME.name();
         browser = System.getProperty("browser", browser);
 
         Browser = browser;
     }
 
-    public String getBrowser() {
-        return Browser;
-    }
-
-    private void setUrl() {
+    private void setTargetUrl() {
         try {
             if (System.getProperty("url").contains("stable")) {
-                Url = PropertyReader.getProperty("url");
+                TargetUrl = PropertyReader.getProperty("url");
             }
         } catch (NullPointerException npe) {
-            Url = PropertyReader.getProperty("url");
+            TargetUrl = PropertyReader.getProperty("url");
         }
-
     }
 
-    public String getUrl() {
-        return Url;
-    }
-
-    @BeforeSuite()
+    @BeforeSuite(alwaysRun = true)
     public void beforeSuite() {
-        setUrl();
+
     }
 
     @Parameters({"browser"})
     @BeforeTest(alwaysRun = true)
-    public void beforeTest(@Optional String browser) throws Exception {
+    public void beforeTest(@Optional String browser) {
+        setTargetUrl();
         setBrowser(browser);
         browser = getBrowser();
         DriverManager.setDriver(new DriverManagerFactory().getManager(browser));
@@ -59,5 +51,10 @@ public class BaseTest {
         DriverManager.getDriver().quit();
     }
 
+    @BeforeGroups(alwaysRun = true, groups = {"basic_test"})
+    public void navigateTargetUrl() {
+        BasePage basePage = new BasePage();
+        basePage.navigate(TargetUrl);
+    }
 
 }

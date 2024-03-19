@@ -1,11 +1,15 @@
 package test.java.actionFactory;
 
+import main.java.com.afreecatv.driver.manager.DriverManager;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import main.java.com.afreecatv.driver.manager.DriverManager;
+import test.java.extentReports.ExtentLogging;
+import main.java.com.afreecatv.log.Logging;
 
 import java.time.Duration;
 
@@ -14,6 +18,13 @@ public class UserActions {
 
     public UserActions() {
         driver = DriverManager.getDriver();
+    }
+
+    public void waitForPageLoad(long timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        wait.until((ExpectedCondition<Boolean>) wd ->
+                ((JavascriptExecutor) wd).executeScript("return document.readyState").equals("complete"));
+
     }
 
     public void waitForVisibility(WebElement el, long timeout) {
@@ -37,6 +48,10 @@ public class UserActions {
         waitForClickabilityOf(el, 3);
         el.click();
 
+        Logging.logger.info("[Step] Click " + elname);
+        ExtentLogging.info("[Step] Click " + elname);
+
+
     }
 
     public void sendKeys(WebElement el, String text, String elname) throws Exception {
@@ -45,10 +60,13 @@ public class UserActions {
         sleep(200);
         el.sendKeys(text);
 
+        Logging.logger.info("[Step] SendKeys " + elname + " [Text] " + text);
+        ExtentLogging.info("[Step] SendKeys " + elname + " [Text] " + text);
+
     }
 
     public String getText(WebElement el) throws Exception {
-        waitForClickabilityOf(el, 3);
+        waitForVisibility(el, 3);
         return el.getText();
     }
 }

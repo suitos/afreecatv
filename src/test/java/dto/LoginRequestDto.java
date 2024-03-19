@@ -12,7 +12,6 @@ public class LoginRequestDto {
     private String id;
     private String pw;
 
-    @Getter
     public enum LoginType {
         COMMON, SNS
     }

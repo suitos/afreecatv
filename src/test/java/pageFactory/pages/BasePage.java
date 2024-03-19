@@ -18,7 +18,10 @@ public class BasePage extends UserActions {
     public BasePage() {
         try {
             driver = DriverManager.getDriver();
+            driver.manage().window().maximize();
+
             PageFactory.initElements(driver, this);
+
             userActions = new UserActions();
         } catch (Exception e) {
             e.printStackTrace();
