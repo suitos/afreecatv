@@ -1,5 +1,6 @@
 package main.java.com.afreecatv.driver.option;
 
+import main.java.com.afreecatv.utils.DataFormat;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -31,7 +32,7 @@ public class DriverOptions {
         chromeOptions.addArguments("--remote-allow-origins=*");
         chromeOptions.setPageLoadStrategy(PageLoadStrategy.NONE);
 
-        System.setProperty("webdriver.chrome.logfile", "log4j2/driver/chrome.log");
+        System.setProperty("webdriver.chrome.logfile", "log4j2/driver/chrome-" + new DataFormat().getToday() + ".log");
         System.setProperty("webdriver.chrome.verboseLogging", "true");
         chromeOptions.setCapability("goog:chromeOptions", "{\"loggingPrefs\": {\"browser\": \"ALL\"}}");
 

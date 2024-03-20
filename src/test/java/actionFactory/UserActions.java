@@ -1,6 +1,7 @@
 package test.java.actionFactory;
 
 import main.java.com.afreecatv.driver.manager.DriverManager;
+import main.java.com.afreecatv.log.Logging;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
@@ -9,9 +10,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import test.java.extentReports.ExtentLogging;
-import main.java.com.afreecatv.log.Logging;
 
 import java.time.Duration;
+import java.util.List;
 
 public class UserActions {
     private WebDriver driver;
@@ -27,6 +28,17 @@ public class UserActions {
 
     }
 
+    public void waitForGetAttribute(WebElement element, String attribute, long timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        wait.until(ExpectedConditions.attributeToBeNotEmpty(element, attribute));
+    }
+
+    public void waitForVisibilityAll(List<WebElement> elementList, long timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        wait.ignoring(StaleElementReferenceException.class)
+                .until(ExpectedConditions.visibilityOfAllElements(elementList));
+    }
+
     public void waitForVisibility(WebElement el, long timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
         wait.ignoring(StaleElementReferenceException.class)
@@ -40,6 +52,12 @@ public class UserActions {
                 .until(ExpectedConditions.elementToBeClickable(el));
     }
 
+    public void waitForWindowsToBe(int wishTabOrder, long timeout) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+        wait.until(ExpectedConditions.numberOfWindowsToBe(wishTabOrder));
+
+    }
+
     public void sleep(long time) throws Exception {
         Thread.sleep(time);
     }
@@ -50,7 +68,6 @@ public class UserActions {
 
         Logging.logger.info("[Step] Click " + elname);
         ExtentLogging.info("[Step] Click " + elname);
-
 
     }
 
@@ -70,3 +87,4 @@ public class UserActions {
         return el.getText();
     }
 }
+

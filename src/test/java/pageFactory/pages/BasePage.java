@@ -1,12 +1,15 @@
 package test.java.pageFactory.pages;
 
+import main.java.com.afreecatv.driver.manager.DriverManager;
+import main.java.com.afreecatv.log.Logging;
 import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import main.java.com.afreecatv.driver.manager.DriverManager;
+import test.java.actionFactory.BrowserActions;
 import test.java.actionFactory.UserActions;
+import test.java.extentReports.ExtentLogging;
 
 import static org.assertj.core.api.Fail.fail;
 
@@ -14,6 +17,7 @@ public class BasePage extends UserActions {
 
     private WebDriver driver;
     private UserActions userActions;
+    private BrowserActions browserActions;
 
     public BasePage() {
         try {
@@ -23,6 +27,8 @@ public class BasePage extends UserActions {
             PageFactory.initElements(driver, this);
 
             userActions = new UserActions();
+            browserActions = new BrowserActions();
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to initialize page object: " + this.getClass().getSimpleName(), e);
@@ -32,14 +38,14 @@ public class BasePage extends UserActions {
     public void navigate(String url) {
         try {
             driver.get(url);
+
+            Logging.logger.info("[Step] Navigate " + url);
+            ExtentLogging.info("[Step] Naviage " + url);
+
         } catch (InvalidArgumentException e) {
             fail(url + " is open fail!!");
-            driver.quit();
-
         } catch (WebDriverException we) {
             fail("Server is not active!!");
-            driver.quit();
-
         }
     }
 
@@ -53,6 +59,10 @@ public class BasePage extends UserActions {
 
     public String getText(WebElement el) throws Exception {
         return userActions.getText(el);
+    }
+
+    public void changeTab(int wishTab) throws Exception {
+        browserActions.changeTab(wishTab);
     }
 
 }

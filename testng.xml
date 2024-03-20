@@ -1,15 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
-    <test verbose="1" name="LoginTest">
+    <listeners>
+        <listener class-name="test.java.listeners.ExtentReportListener"/>
+    </listeners>
+
+    <test verbose="1" name="login_liveBroad_test_chrome">
+        <groups>
+            <run>
+                <include name="login"/>
+                <include name="basic_test"/>
+            </run>
+            <dependencies>
+                <group name="basic_test" depends-on="login"/>
+            </dependencies>
+        </groups>
         <classes>
-            <class name="test.java.uitest.login.LoginTest"/>
+            <class name="test.java.uitest.login.LiveBroadTest"/>
         </classes>
+
     </test>
 
-    <test verbose="1" name="LoginTest2">
+    <test verbose="1" name="non_login_liveBroad_test_chrome">
+        <groups>
+            <run>
+                <include name="non_login"/>
+                <include name="basic_test"/>
+            </run>
+            <dependencies>
+                <group name="basic_test" depends-on="non_login"/>
+            </dependencies>
+        </groups>
         <classes>
-            <class name="test.java.uitest.login.LoginTest2"/>
+            <class name="test.java.uitest.login.LiveBroadTest"/>
         </classes>
+
     </test>
+
 </suite>
