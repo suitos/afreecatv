@@ -1,71 +1,141 @@
 package test.java.uitest.login;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
-import test.java.dto.*;
-import test.java.pageFactory.pages.LivePage;
-import test.java.pageFactory.pages.MainPage;
+import test.java.dto.ContentsRequestDto;
+import test.java.dto.ContentsResponseDto;
+import test.java.pageFactory.pages.*;
 import test.java.uitest.pretest.BaseTest;
 
-import static test.java.dto.BroadRequestDto.BroadChoiceType.RANDOM;
 import static org.assertj.core.api.Assertions.assertThat;
+import static test.java.dto.enumType.SelectTypeEnum.CatchStoryType.NON_STORY;
+import static test.java.dto.enumType.SelectTypeEnum.CatchStoryType.STORY;
+import static test.java.dto.enumType.SelectTypeEnum.ChoiceType.RANDOM;
+import static test.java.dto.enumType.SelectTypeEnum.ContentsType.*;
+import static test.java.dto.enumType.SelectTypeEnum.LiveAreaType.BROAD;
+import static test.java.dto.enumType.SelectTypeEnum.VodAreaType.PREFER_VOD_BROAD;
 
 public class LiveBroadTest extends BaseTest {
 
-    BroadRequestDto broadRequestDto;
-    BroadResponseDto broadResponseDto;
+    ContentsRequestDto contentsRequestDto;
+    ContentsResponseDto contentsResponseDto;
 
-    @Test(priority = 2, groups = {"basic_test"}, description = "인기 LIVE 랜덤 진입")
+    @AfterMethod(onlyForGroups = {"basic_test"}, groups = {"basic_test"})
+    private void closeTab() throws Exception {
+        BasePage basePage = new BasePage();
+        if (basePage.getTabSize() == 2) {
+            basePage.changeAndCloseTab(0);
+        }
+        basePage.sleep(2000);
+
+
+    }
+
+    @Test(priority = 2, enabled = false, groups = {"basic_test"}, description = "인기 LIVE 랜덤 진입")
     public void AUTO_LOGIN_002() throws Exception {
 
-        broadRequestDto = BroadRequestDto
+        contentsRequestDto = ContentsRequestDto
                 .builder()
-                .broadChoiceType(RANDOM)
+                .contentsType(LIVE)
+                .liveAreaType(BROAD)
+                .choiceType(RANDOM)
                 .build();
 
         MainPage mainPage = new MainPage();
-        mainPage.clickBroadList(broadRequestDto);
+        mainPage.clickContentsList(contentsRequestDto);
 
-        LivePage livePage = new LivePage();
-        broadResponseDto = livePage.getBroadLiveOnPass(broadRequestDto.getBjNickName(), broadRequestDto.getBroadTitle(), true);
+        LivePlayerPage livePlayerPage = new LivePlayerPage();
+        contentsResponseDto = livePlayerPage.getBroadLiveOnPass(contentsRequestDto.getBjNickName(), contentsRequestDto.getContentsTitle(), true);
 
-        assertThat(livePage.getLivePageBroadInfo("nickname")).isEqualTo(broadResponseDto.getResultBjNickName());
-        assertThat(livePage.getLivePageBroadInfo("title")).isEqualTo(broadResponseDto.getResultBroadTitle());
-        assertThat(livePage.isLivePlayerElementPresent()).isEqualTo(broadResponseDto.isResultVideoSrcAttributeBool());
+        assertThat(livePlayerPage.getLivePageBroadInfo("nickname")).isEqualTo(contentsResponseDto.getResultBjNickName());
+        assertThat(livePlayerPage.getLivePageBroadInfo("title")).isEqualTo(contentsResponseDto.getResultBroadTitle());
+        assertThat(livePlayerPage.isLivePlayerElementPresent()).isEqualTo(contentsResponseDto.isResultVideoSrcAttributeBool());
     }
 
+    @Test(priority = 3, enabled = false, groups = {"basic_test"}, description = "선호 BJ VOD 랜덤 진입")
+    public void AUTO_LOGIN_003() throws Exception {
 
-    /*
-    @Test(priority = 2, groups = {"basic_test"}, description = "로그인 후 즐겨찾기 이동 테스트")
-    public void AUTO_LOGIN_002() throws Exception {
-
-        navigateLnbRequestDto = NavigateLnbRequestDto
+        contentsRequestDto = ContentsRequestDto
                 .builder()
-                .lnbMenu(FAV)
+                .contentsType(VOD)
+                .vodAreaType(PREFER_VOD_BROAD)
+                .choiceType(RANDOM)
                 .build();
 
-        LNB lnb = new LNB();
-        lnb.navigateLnbMenu(navigateLnbRequestDto);
+        MainPage mainPage = new MainPage();
+        mainPage.clickContentsList(contentsRequestDto);
 
-        FavoritePage favoritePage = new FavoritePage();
-        navigateLnbResponseDto = favoritePage.getNavigateFavOnPass("즐겨찾기한 BJ");
+        VodPlayerPage vodPlayerPage = new VodPlayerPage();
+        contentsResponseDto = vodPlayerPage.getBroadVodOnPass(contentsRequestDto.getBjNickName(), contentsRequestDto.getContentsTitle(), true);
 
-        assertThat(favoritePage.getBigTitle()).isEqualTo(navigateLnbResponseDto.getResultBigTitle());
+        assertThat(vodPlayerPage.getVodPageBroadInfo("nickname")).isEqualTo(contentsResponseDto.getResultBjNickName());
+        assertThat(vodPlayerPage.getVodPageBroadInfo("title")).isEqualTo(contentsResponseDto.getResultBroadTitle());
+        assertThat(vodPlayerPage.isVodPlayerElementPresent()).isEqualTo(contentsResponseDto.isResultVideoSrcAttributeBool());
+
+    }
+
+    @Test(priority = 4, groups = {"basic_test"}, description = "CATCH 랜덤 진입")
+    public void AUTO_LOGIN_004() throws Exception {
+
+        contentsRequestDto = ContentsRequestDto
+                .builder()
+                .contentsType(CATCH)
+                .choiceType(RANDOM)
+                .build();
+
+        MainPage mainPage = new MainPage();
+        mainPage.clickContentsList(contentsRequestDto);
+
+        CatchPlayerPage catchPlayerPage = new CatchPlayerPage();
+        contentsResponseDto = catchPlayerPage.getCatchOnPass(contentsRequestDto.getBjNickName(), contentsRequestDto.getContentsTitle(), true);
+
+        assertThat(catchPlayerPage.getCatchPageCatchInfo("nickname")).isEqualTo(contentsResponseDto.getResultBjNickName());
+        assertThat(catchPlayerPage.getCatchPageCatchInfo("title")).isEqualTo(contentsResponseDto.getResultBroadTitle());
+        assertThat(catchPlayerPage.isCatchPlayerElementPresent()).isEqualTo(contentsResponseDto.isResultVideoSrcAttributeBool());
 
     }
 
-    @Test(priority = 3, enabled = false, groups = {"basic_test"}, dependsOnMethods = {"AUTO_LOGIN_002"}, description = "즐겨찾기 bj 확인")
-    public void AUTO_LOGIN_003() throws Exception {
-        FavoritePage favoritePage = new FavoritePage();
+    @Test(priority = 5, groups = {"basic_test"}, description = "CATCH&STORY 내 스토리 랜덤 진입")
+    public void AUTO_LOGIN_005() throws Exception {
 
-        ArrayList<Pair<String, LiveStatusEnum.LiveStatus>> favoriteBjList = favoritePage.getFavoriteBjList();
+        contentsRequestDto = ContentsRequestDto
+                .builder()
+                .contentsType(CATCH_STORY)
+                .catchStoryType(STORY)
+                .choiceType(RANDOM)
+                .build();
 
-        for (int i = 0; i < favoriteBjList.size(); i++) {
-            Pair<String, LiveStatusEnum.LiveStatus> pair = favoriteBjList.get(i);
-            String bjNickName = pair.getKey();
-            LiveStatusEnum.LiveStatus status = pair.getValue();
-            System.out.println("Index: " + i + ", Bj Nickname: " + bjNickName + ", Status: " + status);
-        }
+        MainPage mainPage = new MainPage();
+        mainPage.clickContentsList(contentsRequestDto);
+
+        StoryPlayerPage storyPlayerPage = new StoryPlayerPage();
+        contentsResponseDto = storyPlayerPage.getCatchOnPass(contentsRequestDto.getBjNickName(), true);
+
+        assertThat(storyPlayerPage.getCatchPageCatchInfo("nickname")).isEqualTo(contentsResponseDto.getResultBjNickName());
+        assertThat(storyPlayerPage.isCatchPlayerElementPresent()).isEqualTo(contentsResponseDto.isResultVideoSrcAttributeBool());
 
     }
-    */
+
+    @Test(priority = 6, groups = {"basic_test"}, description = "CATCH&STORY 내 캐치 랜덤 진입")
+    public void AUTO_LOGIN_006() throws Exception {
+
+        contentsRequestDto = ContentsRequestDto
+                .builder()
+                .contentsType(CATCH_STORY)
+                .catchStoryType(NON_STORY)
+                .choiceType(RANDOM)
+                .build();
+
+        MainPage mainPage = new MainPage();
+        mainPage.clickContentsList(contentsRequestDto);
+
+        CatchPlayerPage catchPlayerPage = new CatchPlayerPage();
+        contentsResponseDto = catchPlayerPage.getCatchOnPass(contentsRequestDto.getBjNickName(), contentsRequestDto.getContentsTitle(), true);
+
+        assertThat(catchPlayerPage.getCatchPageCatchInfo("nickname")).isEqualTo(contentsResponseDto.getResultBjNickName());
+        assertThat(catchPlayerPage.getCatchPageCatchInfo("title")).isEqualTo(contentsResponseDto.getResultBroadTitle());
+        assertThat(catchPlayerPage.isCatchPlayerElementPresent()).isEqualTo(contentsResponseDto.isResultVideoSrcAttributeBool());
+
+    }
+
 }

@@ -2,10 +2,7 @@ package test.java.pageFactory.pages;
 
 import main.java.com.afreecatv.driver.manager.DriverManager;
 import main.java.com.afreecatv.log.Logging;
-import org.openqa.selenium.InvalidArgumentException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import test.java.actionFactory.BrowserActions;
 import test.java.actionFactory.UserActions;
@@ -49,6 +46,10 @@ public class BasePage extends UserActions {
         }
     }
 
+    public void scrollElement(WebElement el) {
+        userActions.scrollElement(el);
+    }
+
     public void click(WebElement el, String elname) throws Exception {
         userActions.click(el, elname);
     }
@@ -59,10 +60,34 @@ public class BasePage extends UserActions {
 
     public String getText(WebElement el) throws Exception {
         return userActions.getText(el);
+
     }
 
-    public void changeTab(int wishTab) throws Exception {
+    public String getTextByXPath(WebElement el, String xpath) throws Exception {
+        return userActions.getText(el.findElement(By.xpath(xpath)));
+
+    }
+
+    public int getTabSize() {
+        return browserActions.getTabSize();
+    }
+
+    public void changeTab(int wishTab) {
         browserActions.changeTab(wishTab);
+    }
+
+    public void changeAndCloseTab(int wishTab) {
+        browserActions.changeAndCloseTab(wishTab);
+    }
+
+    public boolean isElementDisplayed(WebElement el) {
+        try {
+            waitForVisibility(el, 3);
+            waitForClickabilityOf(el, 3);
+            return el.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 }

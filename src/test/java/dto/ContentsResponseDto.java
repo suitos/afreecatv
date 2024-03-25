@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class BroadResponseDto {
+public class ContentsResponseDto {
     private String resultBjNickName;
     private String resultBroadTitle;
     private boolean resultVideoSrcAttributeBool;
