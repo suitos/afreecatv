@@ -190,20 +190,29 @@ public class MainPage extends BasePage {
 
     }
 
-    public void clickSlideBtn(ContentsRequestDto contentsRequestDto) throws Exception {
-        switch (contentsRequestDto.getContentsType()) {
-            case CATCH:
-                sleep(1000);
-                click(recommendCatchSlideBtn, "Catch 슬라이드 버튼");
-                sleep(1000);
+    /***
+     *
+     * @param contentsRequestDto Only CATCH or CATCH_STORY
+     * @throws Exception 맨 마지막 리스트 엘리먼트 때문에 ignored
+     *
+     */
+    public void clickSlideBtn(ContentsRequestDto contentsRequestDto) {
+        try {
+            switch (contentsRequestDto.getContentsType()) {
+                case CATCH:
+                    sleep(1000);
+                    click(recommendCatchSlideBtn, "Catch 슬라이드 버튼");
 
-                break;
-            case CATCH_STORY:
-                sleep(1000);
-                click(catchStorySlideBtn, "Catch & 스토리 슬라이드 버튼");
-                sleep(1000);
-                break;
+                    break;
+                case CATCH_STORY:
+                    sleep(1000);
+                    click(catchStorySlideBtn, "Catch & 스토리 슬라이드 버튼");
+                    break;
+            }
+        } catch (Exception ignored) {
+
         }
+
     }
 
     public void clickCatchTypeContents(ContentsRequestDto contentsRequestDto, WebElement contents) throws Exception {

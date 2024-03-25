@@ -13,6 +13,9 @@ public class StoryPlayerPage extends BasePage {
     @FindBy(xpath = "//div[@class='story_player_guide']//button")
     public WebElement storyPlayerGuideCloseBtn;
 
+    @FindBy(xpath = "//div[@class='video_blind']")
+    public WebElement blindVideo;
+
     @FindBy(id = "video_p")
     public WebElement storyPlayer;
 
@@ -31,9 +34,23 @@ public class StoryPlayerPage extends BasePage {
         }
     }
 
+    public boolean isVideoBlindElementPresent() {
+        try {
+            waitForVisibility(blindVideo, 5);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
     public boolean isCatchPlayerElementPresent() {
-        waitForGetAttributeToBeNotEmpty(storyPlayer, "src", 3);
-        return !storyPlayer.getAttribute("src").isEmpty();
+        if (!isVideoBlindElementPresent()) {
+            waitForGetAttributeToBeNotEmpty(storyPlayer, "src", 3);
+            return !storyPlayer.getAttribute("src").isEmpty();
+        } else {
+            return isVideoBlindElementPresent();
+        }
+
     }
 
     public String getCatchPageCatchInfo(String key) throws Exception {
